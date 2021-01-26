@@ -1,11 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { FeedStore } from 'src/modules/feed/feed.store';
 import { Room } from '../../room.model';
+import { RoomState } from '../../room.state';
 import { RoomStore } from '../../room.store';
 import { RoomQueries } from '../../services/room.queries';
 import { RoomService } from '../../services/room.service';
+import { RoomCreateModalComponent } from '../room-create-modal/room-create-modal.component';
 
 @Component({
   selector: 'app-room-menu',
@@ -15,19 +17,32 @@ import { RoomService } from '../../services/room.service';
 export class RoomMenuComponent implements OnInit {
   roomId$: Observable<string | undefined>;
 
+  @ViewChild("modal")
+  roomCreateComponent: RoomCreateModalComponent;
+
   rooms: Room[];
 
-  constructor(private feedStore: FeedStore, private queries: RoomQueries, private roomService: RoomService, private router: Router) {
+  constructor(private feedStore: FeedStore, private queries: RoomQueries, private roomService: RoomService, private roomStore: RoomStore, private router: Router) {
     this.roomId$ = feedStore.roomId$;
-    this.rooms = [];
+    this.roomStore.value$.subscribe(state => this.rooms =  state.rooms);
   }
 
   async ngOnInit() {
-
-    this.rooms = await this.queries.getAll();
+    const rooms = await this.queries.getAll();
+    const roomState: RoomState = {
+      rooms: rooms
+    }
+    this.roomStore.set(roomState);
+    const roomId = localStorage.getItem('roomId');
+    if (roomId) this.router.navigate(["app", roomId]);
   }
 
   goToRoom(room: Room) {
-    // TODO naviguer vers app/[id de la room]
+    localStorage.setItem('roomId',room.id)
+    this.router.navigate(['app', room.id])
+  }
+
+  createRoomModal() {
+    this.roomCreateComponent.open();
   }
 }
