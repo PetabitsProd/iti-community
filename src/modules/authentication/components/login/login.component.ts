@@ -49,8 +49,10 @@ export class LoginComponent implements OnInit {
 
     try {
       // TODO vérifier le résultat de l'authentification. Rediriger sur "/" en cas de succès ou afficher une erreur en cas d'échec
-      await this.authService.authenticate(this.model.username, this.model.password);
-
+      var res = await this.authService.authenticate(this.model.username, this.model.password);
+      if(res.success) {
+        this.router.navigate(["/"]);
+      }
     } catch (e) {
       this.nzMessageService.error("Une erreur est survenue. Veuillez réessayer plus tard");
     }
