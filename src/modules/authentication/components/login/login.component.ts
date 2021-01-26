@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzMessageService } from "ng-zorro-antd/message";
 import { AuthenticationService } from '../../services/authentication.service';
@@ -17,14 +17,22 @@ class LoginFormModel {
 export class LoginComponent implements OnInit {
   @ViewChild(NgForm, { static: false })
   ngForm: NgForm;
-
+  loginForm: FormGroup
   model = new LoginFormModel();
+
 
   constructor(
     private router: Router,
     private authService: AuthenticationService,
-    private nzMessageService: NzMessageService
-  ) { }
+    private nzMessageService: NzMessageService,
+    private formBuilder: FormBuilder
+  ) {
+    this.loginForm = this.formBuilder.group({
+      username: new FormControl(this.model.username, Validators.compose([Validators.required])),
+      password: new FormControl(this.model.password, Validators.compose([Validators.required]))
+    })
+  }
+
 
   ngOnInit(): void {
   }
