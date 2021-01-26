@@ -1,25 +1,22 @@
 <div class="user-registration">
-  <form nz-form nzLayout="vertical" name="registerForm" [formGroup]="registerForm"  (ngSubmit)="submit()">
+  <form nz-form nzLayout="vertical" name="registerForm" [formGroup]="registerForm" (ngSubmit)="submit()">
     <nz-form-item>
       <nz-form-label nzFor="username" nzRequired>Username</nz-form-label>
       <nz-form-control>
-        <input class="ant-input" type="text" name="username" id="username" [(ngModel)]="model.username"
-          #username="ngModel">
+        <input class="ant-input" type="text" name="username" id="username" formControlName="username" autocomplete="username">
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label nzFor="password" nzRequired>Mot de passe</nz-form-label>
       <nz-form-control>
-        <input class="ant-input" type="password" name="password" id="password" [(ngModel)]="model.password"
-          #password="ngModel">
+        <input class="ant-input" type="password" name="password" id="password" formControlName="password" autocomplete="password">
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
       <nz-form-label nzFor="confirm-password" nzRequired>Confirmation du mot de passe</nz-form-label>
       <nz-form-control>
-        <input class="ant-input" type="password" name="confirm-password" id="confirm-password"
-          [(ngModel)]="model.confirmPassword" #confirm="ngModel">
+        <input class="ant-input" type="password" name="confirm-password" id="confirm-password" formControlName="confirmPassword" autocomplete="confirmPassword">
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>

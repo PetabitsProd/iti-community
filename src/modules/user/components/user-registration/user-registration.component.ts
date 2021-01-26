@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 
@@ -17,8 +17,7 @@ class UserRegistrationFormModel {
 export class UserRegistrationComponent implements OnInit {
   @ViewChild("f")
   form: NgForm;
-  registerForm: FormGroup; 
-
+  registerForm: FormGroup;
   model = new UserRegistrationFormModel();
 
   constructor(
@@ -30,6 +29,10 @@ export class UserRegistrationComponent implements OnInit {
       username: ['', Validators.required],
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required]
+    },
+    // We need this to get the registerForm.invalid
+    {
+      validators: this.equals('password', 'confirmPassword')
     })
   }
 
@@ -42,14 +45,32 @@ export class UserRegistrationComponent implements OnInit {
     if (this.form.form.invalid || this.model.password !== this.model.confirmPassword) {
       return;
     }
-    this.userService.register(this.model.username , this.model.password)    
-
+    
     // TODO Enregistrer l'utilisateur via le UserService
+    this.userService.register(this.model.username, this.model.password);    
     this.goToLogin();
   }
 
   goToLogin() {
     // TODO rediriger l'utilisateur sur "/splash/login"
-    this.router.navigate(["splash", "login"])
+    this.router.navigate(["splash", "login"]);
   }
+
+  private equals = (pathA: string, pathB: string, errorKey: string = 'missmatch') => {
+    return (abstractControl: AbstractControl): null | void => {
+      const abstractControlA = abstractControl.get(pathA);
+      const abstractControlB = abstractControl.get(pathB);
+
+      if (abstractControlA && abstractControlB) {
+        const valueA = abstractControlA.value;
+        const valueB = abstractControlB.value;
+
+        if (valueA !== null && valueA !== undefined && valueA === valueB) {
+          return null;
+        }
+
+        abstractControlB.setErrors({ [errorKey]: true });
+      }
+    };
+  };
 }
