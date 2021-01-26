@@ -15,8 +15,7 @@ class UserRegistrationFormModel {
   styleUrls: ['./user-registration.component.less']
 })
 export class UserRegistrationComponent implements OnInit {
-  @ViewChild("f")
-  form: NgForm;
+
   registerForm: FormGroup;
   model = new UserRegistrationFormModel();
 

@@ -2,21 +2,26 @@
   <form nz-form nzLayout="vertical" name="registerForm" [formGroup]="registerForm" (ngSubmit)="submit()">
     <nz-form-item>
       <nz-form-label nzFor="username" nzRequired>Username</nz-form-label>
-      <nz-form-control>
-        <input class="ant-input" type="text" name="username" id="username" formControlName="username" autocomplete="username">
+      <nz-form-control nzErrorTip="Le nom d'utilisateur est obligatoire">
+        <input class="ant-input" type="text" name="username" id="username" formControlName="username">
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
       <nz-form-label nzFor="password" nzRequired>Mot de passe</nz-form-label>
-      <nz-form-control>
-        <input class="ant-input" type="password" name="password" id="password" formControlName="password" autocomplete="password">
+      <nz-form-control nzErrorTip="Le mot de passe est obligatoire">
+        <input class="ant-input" type="password" name="password" id="password" formControlName="password">
       </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
       <nz-form-label nzFor="confirm-password" nzRequired>Confirmation du mot de passe</nz-form-label>
-      <nz-form-control>
-        <input class="ant-input" type="password" name="confirm-password" id="confirm-password" formControlName="confirmPassword" autocomplete="confirmPassword">
+      <nz-form-control [nzErrorTip]="confirmPasswordError">
+        <input class="ant-input" type="password" name="confirm-password" id="confirm-password" formControlName="confirmPassword">
+        <ng-template #confirmPasswordError>
+          <ng-container *ngIf="registerForm.get('confirmPassword')!.hasError('missmatch')">
+            Le mot de passe n'est pas identique
+          </ng-container>
+        </ng-template>
       </nz-form-control>
     </nz-form-item>
     <nz-form-item>
