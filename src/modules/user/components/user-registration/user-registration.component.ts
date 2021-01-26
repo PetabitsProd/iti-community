@@ -15,8 +15,7 @@ class UserRegistrationFormModel {
   styleUrls: ['./user-registration.component.less']
 })
 export class UserRegistrationComponent implements OnInit {
-  @ViewChild("f")
-  form: NgForm;
+
   registerForm: FormGroup;
   model = new UserRegistrationFormModel();
 
@@ -42,7 +41,7 @@ export class UserRegistrationComponent implements OnInit {
   async submit() {
 
     // TODO  Vérifier que la confirmation de mot de passe correspond au mot de passe
-    if (this.form.form.invalid || this.model.password !== this.model.confirmPassword) {
+    if (this.registerForm.invalid || this.model.password !== this.model.confirmPassword) {
       return;
     }
     
