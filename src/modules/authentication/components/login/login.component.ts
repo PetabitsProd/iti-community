@@ -15,8 +15,7 @@ class LoginFormModel {
   styleUrls: ['./login.component.less']
 })
 export class LoginComponent implements OnInit {
-  @ViewChild(NgForm, { static: false })
-  ngForm: NgForm;
+
   loginForm: FormGroup
   model = new LoginFormModel();
 
@@ -26,15 +25,13 @@ export class LoginComponent implements OnInit {
     private authService: AuthenticationService,
     private nzMessageService: NzMessageService,
     private formBuilder: FormBuilder
-  ) {
-    this.loginForm = this.formBuilder.group({
-      username: new FormControl(this.model.username, Validators.compose([Validators.required])),
-      password: new FormControl(this.model.password, Validators.compose([Validators.required]))
-    })
-  }
-
+  ) {}
 
   ngOnInit(): void {
+    this.loginForm = this.formBuilder.group(({
+      username: new FormControl(this.model.username, Validators.compose([Validators.required])),
+      password: new FormControl(this.model.password, Validators.compose([Validators.required]))
+    }))
   }
 
   goToRegistration() {
@@ -46,7 +43,7 @@ export class LoginComponent implements OnInit {
   }
 
   async login() {
-    if (this.ngForm.form.invalid) {
+    if (this.loginForm.invalid) {
       return;
     }
 
