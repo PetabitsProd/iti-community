@@ -16,7 +16,7 @@ export class PostComponent implements OnInit, AfterViewInit {
   anchor: ElementRef<HTMLDivElement>;
   
   public get humanizeDate() {
-    return DateTime.fromMillis( parseInt(this.post.createdAt), { zone: 'local' }).toString();
+    return DateTime.fromISO(this.post.createdAt);
   }
   
   constructor(
