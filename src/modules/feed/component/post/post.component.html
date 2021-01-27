@@ -5,7 +5,8 @@
 
   <!-- TIPS: [ngStyle]="{'background-image': url(...) }" -->
   <div class="post-author-photo"></div>
-  <div class="post-date"></div>
+  <div class="post-date">    {{humanizeDate | date:'dd-MM-yyyy HH:mm:ss'}}
+  </div>
 
   <!-- TIPS: [ngClass]="{liked: [expression booléenne]}" -->
   <div class="post-user-like">

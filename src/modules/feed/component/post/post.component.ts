@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { DateTime } from 'luxon';
 import { Post } from '../../post.model';
 import { PostService } from '../../services/post.service';
 
@@ -13,13 +14,18 @@ export class PostComponent implements OnInit, AfterViewInit {
 
   @ViewChild("anchor")
   anchor: ElementRef<HTMLDivElement>;
-
+  
+  public get humanizeDate() {
+    return DateTime.fromMillis( parseInt(this.post.createdAt), { zone: 'local' }).toString();
+  }
+  
   constructor(
     private postService: PostService
   ) { }
 
   ngOnInit(): void {
   }
+  
 
   ngAfterViewInit() {
     this.anchor.nativeElement.scrollIntoView();
