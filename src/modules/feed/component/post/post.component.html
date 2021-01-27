@@ -8,7 +8,7 @@
   <div class="post-date"></div>
 
   <!-- TIPS: [ngClass]="{liked: [expression booléenne]}" -->
-  <div class="post-user-like">
+  <div class="post-user-like" (click)="like()">
     <i nz-icon nzType="heart" [nzTheme]="post.liked ? 'fill' : 'outline'"></i>
   </div>
 
