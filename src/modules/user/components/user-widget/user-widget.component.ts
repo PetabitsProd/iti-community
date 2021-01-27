@@ -6,6 +6,7 @@ import { AuthenticationService } from 'src/modules/authentication/services/authe
 import { UserService } from '../../services/user.service';
 import { User } from '../../user.model';
 import { UserStore } from '../../user.store';
+import { NotificationStore } from 'src/modules/notification/notification.store';
 
 @Component({
   selector: 'app-user-widget',
@@ -17,15 +18,20 @@ export class UserWidgetComponent implements OnInit {
   toggleNotifications: EventEmitter<void> = new EventEmitter();
 
   user$: Observable<User | undefined>;
+  photoUrl$: Observable<string | undefined>;
+  hasUnread$: Observable<boolean>;
 
   constructor(
     private authService: AuthenticationService,
     private router: Router,
     private modalService: NzModalService,
+    private notificationStore: NotificationStore,
     private userService: UserService,
     private store: UserStore
   ) {
     this.user$ = store.user$;
+    this.photoUrl$ = store.get(s => s.user && s.user.photoUrl ? s.user.photoUrl : "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/434px-Unknown_person.jpg");
+    this.hasUnread$ = notificationStore.hasUnread$;
   }
 
   ngOnInit(): void {
