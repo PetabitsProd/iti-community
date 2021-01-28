@@ -61,24 +61,23 @@ export class UserProfileModalComponent implements OnInit {
   model: UserProfileForm;
 
   constructor(private userService: UserService, private sanitizer: DomSanitizer) {
-
   }
 
   ngOnInit(): void {
     this.model = new UserProfileForm(this.user);
   }
 
-  get photoUrl(): SafeResourceUrl | undefined {
-    if (this.model.photoUrl) {
-      return this.sanitizer.bypassSecurityTrustResourceUrl(this.model.photoUrl);
-    }
+  get photoUrl(): SafeResourceUrl {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(this.model.photoUrl || "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Unknown_person.jpg/434px-Unknown_person.jpg");
   }
 
   async onOk() {
     // TODO vérifier si le formulaire est valide
+    if (!this.model.username) return
 
     if (this.model.hasChanged()) {
       // TODO mettre à jour l'utilisateur via le service
+      this.userService.update({id: this.model.id, username: this.model.username, photo: this.model.file});
     }
 
     this.close();
