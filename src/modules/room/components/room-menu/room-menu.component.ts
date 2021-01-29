@@ -9,6 +9,7 @@ import { RoomQueries } from '../../services/room.queries';
 import { RoomService } from '../../services/room.service';
 import { RoomCreateModalComponent } from '../room-create-modal/room-create-modal.component';
 
+import { RoomSocketService } from '../../services/room.socket.service';
 @Component({
   selector: 'app-room-menu',
   templateUrl: './room-menu.component.html',
